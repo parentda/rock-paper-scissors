@@ -24,7 +24,7 @@ function userPlay() {
   ) {
     return userInput;
   }
-  userPlay();
+  return userPlay();
 }
 
 function getRounds() {
@@ -48,23 +48,23 @@ function playRound(playerSelection, computerSelection) {
 
   if (indexDiff === 0) {
     console.log(`It's a Tie!`);
-    return 0;
+    return 1;
   }
   if (indexDiff === 1 || indexDiff === -2) {
     console.log(`You Win! ${playerSelection} beats ${computerSelection}`);
-    return 1;
+    return 0;
   }
   console.log(`You Lose! ${computerSelection} beats ${playerSelection}`);
-  return -1;
+  return 2;
 }
 
 function showFinalScore(score, rounds) {
-  if (keepScore === 0) {
+  if (score[0] === score[2]) {
     console.log(`After ${rounds} round(s), it's a tie!`);
-  } else if (keepScore > 0) {
-    console.log(`After ${rounds} round(s), you win!`);
+  } else if (score[0] > score[2]) {
+    console.log(`After ${rounds} round(s), you win ${score[0]}-${score[2]}!`);
   } else {
-    console.log(`After ${rounds} round(s), you lose!`);
+    console.log(`After ${rounds} round(s), you lose ${score[2]}-${score[0]}!`);
   }
 }
 
@@ -77,7 +77,9 @@ function game() {
     return;
   }
   let userCancel = false;
-  let keepScore = 0;
+
+  // Player's Win:Draw:Loss record
+  let keepScore = [0, 0, 0];
 
   for (let i = 0; i < rounds; i++) {
     const computerSelection = computerPlay();
@@ -89,7 +91,7 @@ function game() {
       userCancel = true;
       break;
     }
-    keepScore += playRound(playerSelection, computerSelection);
+    keepScore[playRound(playerSelection, computerSelection)]++;
   }
 
   if (userCancel) {
