@@ -6,8 +6,25 @@ function computerPlay() {
 }
 
 function userPlay() {
-  let userInput = prompt('Please enter "Rock", "Paper", or "Scissors"').trim();
-  return userInput.charAt(0).toUpperCase() + userInput.slice(1).toLowerCase();
+  let userInput = prompt(
+    `Please enter "${gameOptions[0]}", "${gameOptions[1]}", or "${gameOptions[2]}"`
+  );
+
+  if (userInput === null) {
+    return;
+  }
+
+  userInput =
+    userInput.charAt(0).toUpperCase() + userInput.trim().slice(1).toLowerCase();
+
+  if (
+    userInput === gameOptions[0] ||
+    userInput === gameOptions[1] ||
+    userInput === gameOptions[2]
+  ) {
+    return userInput;
+  }
+  userPlay();
 }
 
 function getRounds() {
@@ -16,7 +33,9 @@ function getRounds() {
   );
   if (numRounds === null) {
     return;
-  } else if (!Number.isInteger(numRounds) || numRounds <= 0) {
+  }
+  numRounds = Number(numRounds);
+  if (!Number.isInteger(numRounds) || numRounds <= 0) {
     numRounds = getRounds();
   }
   return numRounds;
@@ -39,23 +58,45 @@ function playRound(playerSelection, computerSelection) {
   return -1;
 }
 
+function showFinalScore(score, rounds) {
+  if (keepScore === 0) {
+    console.log(`After ${rounds} round(s), it's a tie!`);
+  } else if (keepScore > 0) {
+    console.log(`After ${rounds} round(s), you win!`);
+  } else {
+    console.log(`After ${rounds} round(s), you lose!`);
+  }
+}
+
 function game() {
   const rounds = getRounds();
+  if (rounds === undefined) {
+    console.log(
+      "You have cancelled the game. Please refresh the page to start a new game."
+    );
+    return;
+  }
+  let userCancel = false;
   let keepScore = 0;
 
   for (let i = 0; i < rounds; i++) {
     const computerSelection = computerPlay();
     const playerSelection = userPlay();
+    if (playerSelection === undefined) {
+      console.log(
+        "You have cancelled the game. Please refresh the page to start a new game."
+      );
+      userCancel = true;
+      break;
+    }
     keepScore += playRound(playerSelection, computerSelection);
   }
 
-  if (keepScore === 0) {
-    console.log(`After ${rounds} rounds, it's a tie!`);
-  } else if (keepScore > 0) {
-    console.log(`After ${rounds} rounds, you win!`);
-  } else {
-    console.log(`After ${rounds} rounds, you lose!`);
+  if (userCancel) {
+    return;
   }
+
+  showFinalScore(keepScore, rounds);
 }
 
 game();
