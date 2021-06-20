@@ -11,7 +11,7 @@ function userPlay() {
   );
 
   if (userInput === null) {
-    return undefined;
+    return null;
   }
 
   userInput =
@@ -32,7 +32,7 @@ function getRounds() {
     "How many rounds would you like to play? (Please enter an integer greater than 0)"
   );
   if (numRounds === null) {
-    return undefined;
+    return null;
   }
   numRounds = Number(numRounds);
   if (!Number.isInteger(numRounds) || numRounds <= 0) {
@@ -70,7 +70,7 @@ function showFinalScore(score, rounds) {
 
 function game() {
   const rounds = getRounds();
-  if (rounds === undefined) {
+  if (rounds === null) {
     console.log(
       "You have cancelled the game. Please refresh the page to start a new game."
     );
@@ -84,7 +84,7 @@ function game() {
   for (let i = 0; i < rounds; i += 1) {
     const computerSelection = computerPlay();
     const playerSelection = userPlay();
-    if (playerSelection === undefined) {
+    if (playerSelection === null) {
       console.log(
         "You have cancelled the game. Please refresh the page to start a new game."
       );
@@ -95,7 +95,7 @@ function game() {
   }
 
   if (userCancel) {
-    return undefined;
+    return false;
   }
 
   showFinalScore(keepScore, rounds);
