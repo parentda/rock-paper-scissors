@@ -11,23 +11,18 @@ function userPlay() {
 }
 
 function getRounds() {
-  let numRounds = parseInt(
-    prompt(
-      "How many rounds would you like to play? (Please enter an integer greater than 0)"
-    )
+  let numRounds = prompt(
+    "How many rounds would you like to play? (Please enter an integer greater than 0)"
   );
-  if (!Number.isInteger(numRounds) || numRounds <= 0) {
+  if (numRounds === null) {
+    return;
+  } else if (!Number.isInteger(numRounds) || numRounds <= 0) {
     numRounds = getRounds();
   }
   return numRounds;
 }
 
 function playRound(playerSelection, computerSelection) {
-  // eslint-disable-next-line no-param-reassign
-  playerSelection =
-    playerSelection.charAt(0).toUpperCase() +
-    playerSelection.slice(1).toLowerCase();
-
   const indexDiff =
     gameOptions.indexOf(playerSelection) -
     gameOptions.indexOf(computerSelection);
@@ -45,16 +40,22 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game() {
-  const playerSelection = "paper";
+  const rounds = getRounds();
   let keepScore = 0;
+
   for (let i = 0; i < rounds; i++) {
     const computerSelection = computerPlay();
+    const playerSelection = userPlay();
     keepScore += playRound(playerSelection, computerSelection);
-    console.log(keepScore);
+  }
+
+  if (keepScore === 0) {
+    console.log(`After ${rounds} rounds, it's a tie!`);
+  } else if (keepScore > 0) {
+    console.log(`After ${rounds} rounds, you win!`);
+  } else {
+    console.log(`After ${rounds} rounds, you lose!`);
   }
 }
 
-// console.log(playerSelection);
-// console.log(playRound(playerSelection, computerSelection));
-// console.log(computerSelection);
-console.log(getRounds());
+game();
