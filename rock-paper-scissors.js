@@ -74,7 +74,7 @@ function game() {
     console.log(
       "You have cancelled the game. Please refresh the page to start a new game."
     );
-    return undefined;
+    return false;
   }
   let userCancel = false;
 
