@@ -79,7 +79,7 @@ function game() {
   let userCancel = false;
 
   // Player's Win:Draw:Loss record
-  const keepScore = [0, 0, 0];
+  const score = [0, 0, 0];
 
   for (let i = 0; i < rounds; i += 1) {
     const computerSelection = computerPlay();
@@ -91,14 +91,14 @@ function game() {
       userCancel = true;
       break;
     }
-    keepScore[playRound(playerSelection, computerSelection)] += 1;
+    score[playRound(playerSelection, computerSelection)] += 1;
   }
 
   if (userCancel) {
     return false;
   }
 
-  showFinalScore(keepScore, rounds);
+  showFinalScore(score, rounds);
   return true;
 }
 
