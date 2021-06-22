@@ -76,7 +76,6 @@ function game() {
     );
     return false;
   }
-  let userCancel = false;
 
   // Player's Win:Draw:Loss record
   const score = [0, 0, 0];
@@ -88,14 +87,9 @@ function game() {
       console.log(
         "You have cancelled the game. Please refresh the page to start a new game."
       );
-      userCancel = true;
-      break;
+      return false;
     }
     score[playRound(playerSelection, computerSelection)] += 1;
-  }
-
-  if (userCancel) {
-    return false;
   }
 
   showFinalScore(score, rounds);
