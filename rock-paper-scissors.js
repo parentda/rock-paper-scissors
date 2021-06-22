@@ -6,38 +6,52 @@ function computerPlay() {
 }
 
 function userPlay() {
-  let userInput = prompt(
-    `Please enter "${gameOptions[0]}", "${gameOptions[1]}", or "${gameOptions[2]}"`
-  );
+  let userInput;
 
-  if (userInput === null) {
-    return null;
+  while (true) {
+    userInput = prompt(
+      `Please enter "${gameOptions[0]}", "${gameOptions[1]}", or "${gameOptions[2]}"`
+    );
+
+    if (userInput === null) {
+      break;
+    }
+
+    userInput =
+      userInput.charAt(0).toUpperCase() +
+      userInput.trim().slice(1).toLowerCase();
+
+    if (
+      userInput === gameOptions[0] ||
+      userInput === gameOptions[1] ||
+      userInput === gameOptions[2]
+    ) {
+      break;
+    }
   }
 
-  userInput =
-    userInput.charAt(0).toUpperCase() + userInput.trim().slice(1).toLowerCase();
-
-  if (
-    userInput === gameOptions[0] ||
-    userInput === gameOptions[1] ||
-    userInput === gameOptions[2]
-  ) {
-    return userInput;
-  }
-  return userPlay();
+  return userInput;
 }
 
 function getRounds() {
-  let numRounds = prompt(
-    "How many rounds would you like to play? (Please enter an integer greater than 0)"
-  );
-  if (numRounds === null) {
-    return null;
+  let numRounds;
+
+  while (true) {
+    numRounds = prompt(
+      "How many rounds would you like to play? (Please enter an integer greater than 0)"
+    );
+
+    if (numRounds === null) {
+      break;
+    }
+
+    numRounds = Number(numRounds);
+
+    if (Number.isInteger(numRounds) && numRounds > 0) {
+      break;
+    }
   }
-  numRounds = Number(numRounds);
-  if (!Number.isInteger(numRounds) || numRounds <= 0) {
-    numRounds = getRounds();
-  }
+
   return numRounds;
 }
 
